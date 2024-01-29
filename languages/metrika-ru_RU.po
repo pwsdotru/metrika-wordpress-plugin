@@ -1,0 +1,55 @@
+# Copyright (C) 2014 Metrika
+# This file is distributed under the same license as the Metrika package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Metrika 1.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/metrika\n"
+"POT-Creation-Date: 2014-03-18 19:21:02+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Aleksandr Novikov <pwsdotru@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: metrika.php:21 metrika.php:44
+msgid "Metrika Options"
+msgstr "Настройка Метрики"
+
+#. #-#-#-#-#  metrika.pot (Metrika 1.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: metrika.php:21
+msgid "Metrika"
+msgstr "Метрика"
+
+#: metrika.php:38
+msgid "Settings has been updated"
+msgstr "Код счетчика успешно сохранен"
+
+#: metrika.php:47
+msgid "Insert code"
+msgstr "Код счетчика"
+
+#: metrika.php:50
+msgid "Save"
+msgstr "Сохранить"
+
+#. Plugin URI of the plugin/theme
+msgid "http://pws.ru/wordpress/metrika"
+msgstr "http://pws.ru/wordpress/metrika"
+
+#. Description of the plugin/theme
+msgid ""
+"Allowed insert to blog code for counter from Yandex Metrika: http://metrika."
+"yandex.ru/"
+msgstr "Позволяет добавить в блог счетчик Яндекс метрики http://metrika."
+"yandex.ru/"
+
+
+#. Author of the plugin/theme
+msgid "Alexander Novikov"
+msgstr "Александр Новиков"
+
+#. Author URI of the plugin/theme
+msgid "http://pws.ru/wordpress/"
+msgstr "http://pws.ru/wordpress/"
