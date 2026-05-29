@@ -1,0 +1,28 @@
+{
+    "name": "pwsdotru/metrika-wordpress-plugin",
+    "description": "Metrika plugin for Wordpress",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+      {
+          "name": "Aleksandr Novikov",
+          "email": "pwsdotru@gmail.com",
+          "homepage": "https://github.com/pwsdotru"
+      }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.13",
+        "wp-coding-standards/wpcs": "^3.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "style:check": "vendor/bin/phpcs",
+        "style:fix": "vendor/bin/phpcbf",
+        "git:prepush": [
+            "@style:check"
+        ]
+    }
+}
