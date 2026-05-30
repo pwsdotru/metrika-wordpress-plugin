@@ -1,73 +1,86 @@
 <?php
-/*
-Plugin Name: Metrika
-Text Domain: metrika
-Plugin URI: http://pwsdotru.com/wordpress/metrika
-Description: Allowed insert to blog code for counter from Yandex Metrika: http://metrika.yandex.ru/
-Author: Aleksander Novikov
-Version: 1.2
-Author URI: http://pwsdotru.com
-*/
-define('PLUGIN_LANGUAGE_ID', 'metrika');
-load_plugin_textdomain(PLUGIN_LANGUAGE_ID, false, basename( dirname( __FILE__ ) ) . "/languages");
-//Install function
+/**
+ * Plugin Name: Metrika
+ * Text Domain: metrika
+ * Plugin URI: http://pwsdotru.com/wordpress/metrika
+ * Description: Plugin allow insert to blog code for counter from Yandex Metrika: http://metrika.yandex.ru/
+ * Author: Aleksander Novikov
+ * Version: 1.3
+ * Author URI: http://pwsdotru.com
+ *
+ * @package metrika
+ */
+
+/**
+ * Init
+ */
+function members_listing_load_textdomain() {
+	load_plugin_textdomain( 'metrika', false, basename( __DIR__ ) . '/languages' );
+}
+add_action( 'init', 'members_listing_load_textdomain' );
+
+
+/**
+ * Install function
+ */
 function metrika_install() {
-	add_option("metrika_script", "");
+	add_option( 'metrika_script', '' );
 }
-register_activation_hook(__FILE__, 'metrika_install');
+register_activation_hook( __FILE__, 'metrika_install' );
 
-//Menu
+/**
+ * Menu
+ */
 function metrika_menu() {
-	add_options_page(__("Metrika Options", PLUGIN_LANGUAGE_ID), __("Metrika", PLUGIN_LANGUAGE_ID), 8, __FILE__, 'metrika_options');
+	add_options_page( __( 'Metrika Options', 'metrika' ), __( 'Metrika', 'metrika' ), 8, __FILE__, 'metrika_options' );
 }
-add_action('admin_menu', 'metrika_menu');
+add_action( 'admin_menu', 'metrika_menu' );
 
-//Edit form
+/**
+ * Edit form
+ */
 function metrika_options() {
 
-	if($_SERVER["REQUEST_METHOD"]=="POST" && isset($_POST["metrika"]) && $_POST["metrika"]=="savesettings") {
+	if ( array_key_exists( 'REQUEST_METHOD', $_SERVER ) && 'POST' === $_SERVER['REQUEST_METHOD'] &&
+		! empty( $_POST['metrika'] ) && 'savesettings' === $_POST['metrika'] ) {
 
-		update_option("metrika_script", trim(StripSlashes($_POST["metrika_script"])));
-		$update=1;
+		update_option( 'metrika_script', trim( StripSlashes( $_POST['metrika_script'] ) ) );
+		$update = 1;
 	} else {
-		$update=0;
+		$update = 0;
 	}
-	if($update) {
-?>
-        <div id="message" class="updated fade">
-            <p><strong><?php _e("Settings has been updated", PLUGIN_LANGUAGE_ID)?></strong></p>
-        </div>
-<?php
+	if ( $update ) {
+		printf( '<div id="message" class="updated fade"><p><strong>%s</strong></p></div>', esc_html__( 'Settings has been updated', 'metrika' ) );
 	}
-?>
+	?>
 	<div class="wrap">
-	<h2><?php _e("Metrika Options", PLUGIN_LANGUAGE_ID); ?></h2>
+	<h2><?php esc_html_e( 'Metrika Options', 'metrika' ); ?></h2>
 	<br class="clear" />
 	<form method="post">
-	<p><?php _e("Insert code", PLUGIN_LANGUAGE_ID); ?>:</p>
-	<textarea name="metrika_script" cols="90" rows="10"><?php echo(StripSlashes(get_option("metrika_script"))); ?></textarea>
+		<p><label for="metrika_sript"><?php esc_html_e( 'Insert code', 'metrika' ); ?>:</label></p>
+	<textarea name="metrika_script" id="metrika_sript" cols="90" rows="10"><?php echo( StripSlashes( get_option( 'metrika_script' ) ) ); ?></textarea>
 	<p>
-	<input type="submit" value="<?php _e("Save", PLUGIN_LANGUAGE_ID); ?>" class="button">
+	<input type="submit" value="<?php esc_html_e( 'Save', 'metrika' ); ?>" class="button">
 	<input type="hidden" name="metrika" value="savesettings">
 	</p>
 	</form>
 	</div>
-<?php
+	<?php
 }
 
-//Output code
+/**
+ * Output code
+ */
 function metrika_printcode() {
-	echo("\n".get_option("metrika_script")."\n");
+	printf( "\n%s\n", get_option( 'metrika_script' ) );
 }
-add_action('wp_footer', 'metrika_printcode');
+add_action( 'wp_footer', 'metrika_printcode' );
 
 
-//Notice
+/**
+ * Notice
+ */
 function metrika_admin_notice() {
-?>
-<div class="update-nag">
-  <p><?php _e( 'Metrika: Need configure', 'metrika' ); ?></p>
-</div>
-<?php
+	printf( '<div class="update-nag"><p>%s</p></div>', esc_html__( 'Metrika: Need configure', 'metrika' ) );
 }
-add_action('admin_notices', 'metrika_admin_notice');
+add_action( 'admin_notices', 'metrika_admin_notice' );

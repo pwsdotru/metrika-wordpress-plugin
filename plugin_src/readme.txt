@@ -2,7 +2,7 @@
 Contributors: pws.ru
 Tags: metrika, analytics, yandex, google, counters
 Requires at least: 2.0
-Tested up to: 5.2
+Tested up to: 7.2
 Stable tag: trunk
 Donate link: http://pwsdotru.com/donate/
 Metrika allow you insert counter code for YandexMetrika and Google Google Analytics to your blog.
@@ -33,3 +33,7 @@ This is done! Code will inserted in footer of your blog.
 = 1.2 =
 
 * Check settings and show notice
+
+= 1.3 =
+
+* Refactoring
