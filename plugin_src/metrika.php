@@ -11,6 +11,8 @@
  * @package metrika
  */
 
+define( 'METRIKA_SCRIPT', 'metrika_script' );
+
 /**
  * Init
  */
@@ -19,14 +21,6 @@ function members_listing_load_textdomain() {
 }
 add_action( 'init', 'members_listing_load_textdomain' );
 
-
-/**
- * Install function
- */
-function metrika_install() {
-	add_option( 'metrika_script', '' );
-}
-register_activation_hook( __FILE__, 'metrika_install' );
 
 /**
  * Menu
@@ -44,7 +38,7 @@ function metrika_options() {
 	if ( array_key_exists( 'REQUEST_METHOD', $_SERVER ) && 'POST' === $_SERVER['REQUEST_METHOD'] &&
 		! empty( $_POST['metrika'] ) && 'savesettings' === $_POST['metrika'] ) {
 
-		update_option( 'metrika_script', trim( StripSlashes( $_POST['metrika_script'] ) ) );
+		update_option( METRIKA_SCRIPT, trim( StripSlashes( $_POST['metrika_script'] ) ) );
 		$update = 1;
 	} else {
 		$update = 0;
@@ -58,7 +52,7 @@ function metrika_options() {
 	<br class="clear" />
 	<form method="post">
 		<p><label for="metrika_sript"><?php esc_html_e( 'Insert code', 'metrika' ); ?>:</label></p>
-	<textarea name="metrika_script" id="metrika_sript" cols="90" rows="10"><?php echo( StripSlashes( get_option( 'metrika_script' ) ) ); ?></textarea>
+	<textarea name="metrika_script" id="metrika_sript" cols="90" rows="10"><?php echo( StripSlashes( get_option( METRIKA_SCRIPT, '' ) ) ); ?></textarea>
 	<p>
 	<input type="submit" value="<?php esc_html_e( 'Save', 'metrika' ); ?>" class="button">
 	<input type="hidden" name="metrika" value="savesettings">
@@ -81,6 +75,8 @@ add_action( 'wp_footer', 'metrika_printcode' );
  * Notice
  */
 function metrika_admin_notice() {
-	printf( '<div class="update-nag"><p>%s</p></div>', esc_html__( 'Metrika: Need configure', 'metrika' ) );
+	if ( null === get_option( METRIKA_SCRIPT, null ) ) {
+		printf( '<div class="update-nag"><p>%s</p></div>', esc_html__( 'Metrika: Need configure', 'metrika' ) );
+	}
 }
 add_action( 'admin_notices', 'metrika_admin_notice' );
