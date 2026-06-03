@@ -35,28 +35,35 @@ add_action( 'admin_menu', 'metrika_menu' );
  */
 function metrika_options() {
 
-	if ( array_key_exists( 'REQUEST_METHOD', $_SERVER ) && 'POST' === $_SERVER['REQUEST_METHOD'] &&
-		! empty( $_POST['metrika'] ) && 'savesettings' === $_POST['metrika'] ) {
-
-		update_option( METRIKA_SCRIPT, trim( StripSlashes( $_POST['metrika_script'] ) ) );
-		$update = 1;
-	} else {
-		$update = 0;
+	if ( array_key_exists( 'REQUEST_METHOD', $_SERVER ) && 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+		if ( array_key_exists( 'metrika_nonce_field', $_POST ) &&
+			wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['metrika_nonce_field'] ) ), 'metrika_action_save' )
+		) {
+			$update = 0;
+			if ( array_key_exists( 'metrika', $_POST ) && 'savesettings' === sanitize_text_field( wp_unslash( $_POST['metrika'] ) ) ) {
+				if ( array_key_exists( 'metrika_script', $_POST ) ) {
+					update_option( METRIKA_SCRIPT, sanitize_text_field( wp_unslash( $_POST['metrika_script'] ) ) );
+				}
+				$update = 1;
+			}
+			if ( $update ) {
+				printf( '<div id="message" class="updated fade"><p><strong>%s</strong></p></div>', esc_html__( 'Settings has been updated', 'metrika' ) );
+			}
+		} else {
+			printf( '<div id="message">%s</div>', esc_html__( 'Sorry, your nonce did not verify.</div>' ) );
+		}
 	}
-	if ( $update ) {
-		printf( '<div id="message" class="updated fade"><p><strong>%s</strong></p></div>', esc_html__( 'Settings has been updated', 'metrika' ) );
-	}
+	$metrika_code = get_option( METRIKA_SCRIPT, '' );
 	?>
 	<div class="wrap">
 	<h2><?php esc_html_e( 'Metrika Options', 'metrika' ); ?></h2>
 	<br class="clear" />
 	<form method="post">
 		<p><label for="metrika_sript"><?php esc_html_e( 'Insert code', 'metrika' ); ?>:</label></p>
-	<textarea name="metrika_script" id="metrika_sript" cols="90" rows="10"><?php echo( StripSlashes( get_option( METRIKA_SCRIPT, '' ) ) ); ?></textarea>
-	<p>
-	<input type="submit" value="<?php esc_html_e( 'Save', 'metrika' ); ?>" class="button">
-	<input type="hidden" name="metrika" value="savesettings">
-	</p>
+		<p><textarea name="metrika_script" id="metrika_sript" cols="90" rows="10"><?php esc_html( $metrika_code ); ?></textarea></p>
+		<p><input type="submit" value="<?php esc_html_e( 'Save', 'metrika' ); ?>" class="button"></p>
+		<input type="hidden" name="metrika" value="savesettings">
+		<?php wp_nonce_field( 'metrika_action_save', 'metrika_nonce_field' ); ?>
 	</form>
 	</div>
 	<?php
@@ -66,7 +73,8 @@ function metrika_options() {
  * Output code
  */
 function metrika_printcode() {
-	printf( "\n%s\n", get_option( 'metrika_script' ) );
+	$metrika_code = get_option( METRIKA_SCRIPT, '' );
+	esc_html( $metrika_code );
 }
 add_action( 'wp_footer', 'metrika_printcode' );
 
