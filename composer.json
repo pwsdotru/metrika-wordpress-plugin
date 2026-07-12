@@ -19,6 +19,7 @@
         }
     },
     "scripts": {
+        "language": "msgfmt -o plugin_src/languages/metrika-ru_RU.mo plugin_src/languages/metrika-ru_RU.po",
         "style:check": "vendor/bin/phpcs",
         "style:fix": "vendor/bin/phpcbf",
         "git:prepush": [
