@@ -2,12 +2,14 @@
 
 Адрес в каталоге Wordpress: https://wordpress.org/plugins/metrika/
 
-
 ## Информация для разработки
+
+* plugin_src - папка плагина
+* plugin_src/languages/* языковые файлы
 
 ### Деплой в каталог
 
-Весь код нужно скопировать в папку **trunk** в SVN
+Весь код из **plugin_src** нужно скопировать в папку **trunk** в SVN
 
 Файлы из **assets** в такую же папку в SVN
 
