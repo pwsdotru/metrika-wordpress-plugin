@@ -2,6 +2,8 @@
 
 Адрес в каталоге Wordpress: https://wordpress.org/plugins/metrika/
 
+Версия: 1.3
+
 ## Информация для разработки
 
 * plugin_src - папка плагина
